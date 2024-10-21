@@ -3172,8 +3172,8 @@ select {
 
 .admin-email-input {
   width: 100%;
-  height: 50px;
-  font-size: 1.3rem;
+  height: 40px;
+  font-size: 1.2rem;
   font-family: 'Red Hat Display', sans-serif;
   padding: 1rem;
   /* border: 0.2px solid rgb(255, 51, 0); */
@@ -3205,6 +3205,11 @@ select {
 .admin-email-modal > div {
   /* border: 1px solid; */
 }
+.send-icon {
+  font-size: 1.3rem;
+  margin-left: 1rem;
+  color: #b80c90;
+}
 .admin-email-footer,
 .admin-email-header {
   display: flex;
@@ -3215,6 +3220,20 @@ select {
 .admin-email-body {
   min-height: 300px;
 }
+
+/* resize: none: Disables resizing of the textarea by the user. If you only want to restrict one direction, you can also set it to resize: vertical or resize: horizontal. */
+/* disable resizing width */
+.admin-email-text {
+  max-width: 100%;
+  min-width: 100%;
+  width: 100%;
+  min-height: 350px;
+  max-height: 350px;
+  resize: none;
+  /* resize: vertical; */
+  /* resize: horizontal; */
+}
+
 .admin-email-footer {
 }
 .email-item-inner-div {
@@ -5049,10 +5068,11 @@ input[type='radio'] {
   border-radius: 0.5rem;
 }
 .img-management-grid {
-  /* border: 1px solid; */
+  border: 1px solid transparent;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 1rem;
+  margin-bottom: 1rem;
 }
 .img-management-item-wrap {
   /* border: 1px solid; */
@@ -5191,3 +5211,6 @@ input[type='radio'] {
   cursor: progress;
 }
 /* ================ IMAGE MANAGMENT ===================== */
+.test {
+  background-color: red;
+}

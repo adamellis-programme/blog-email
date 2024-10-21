@@ -1,7 +1,10 @@
 const asyncHandler = require('express-async-handler')
+const nodemailer = require('nodemailer')
 const EmailModel = require('../models/emailModel')
 const UserModel = require('../models/userModel')
 const MsgModel = require('../models/msgModel')
+
+const { loadTemplate, sendEmailFunc } = require('../utils/emailSender')
 
 // from the home page
 const signUp = asyncHandler(async (req, res) => {
@@ -178,4 +181,46 @@ const getUserForEmailAdmin = asyncHandler(async (req, res) => {
 
   res.status(200).json(userToEmail)
 })
-module.exports = { signUp, getEmailsAdmin, footerSignUp, msgSignUp, getUserForEmailAdmin }
+
+const sendEmail = asyncHandler(async (req, res) => {
+  console.log(req.body)
+  const { from, to, text } = req.body
+  console.log(from)
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'theblogsite101@gmail.com',
+      pass: 'ugth avtg hdos aaqs', // See note below on using app-specific passwords
+    },
+  })
+
+  try {
+    // Await the email sending
+    const info = await transporter.sendMail({
+      from: `Adam <${from}>`,
+      to: 'ellisadam88@gmail.com',
+      subject: 'Hello ✔',
+      text: text,
+      html: `<h1> hello there </h1>`,
+    })
+    height:;
+    console.log('Message sent: %s', info.messageId)
+    res.status(200).json({ message: 'Email sent successfully' })
+  } catch (error) {
+    console.error('Error sending email:', error)
+    res.status(500).json({ message: 'Error sending email', error })
+  }
+})
+
+const sendWelcomeEmails = asyncHandler(async (req, res) => {})
+
+module.exports = {
+  signUp,
+  getEmailsAdmin,
+  footerSignUp,
+  msgSignUp,
+  getUserForEmailAdmin,
+  sendEmail,
+  sendWelcomeEmails,
+}

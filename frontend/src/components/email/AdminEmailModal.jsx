@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { setShowEmailModal } from '../../features/admin/adminSlice'
+import { sendEmail, setShowEmailModal } from '../../features/admin/adminSlice'
 import { useEffect, useState } from 'react'
 import { getUserForEmailAdmin, getUserAdmin } from '../../features/admin/adminSlice'
 import { getCurrentUSer } from '../../features/users/userSlice'
@@ -10,6 +10,7 @@ const AdminEmailModal = () => {
   const [adminUser, setAdminUser] = useState(null)
   const [fromEmail, setFromEmail] = useState('') // new state for "from" value
   const [toValue, setToValue] = useState('') // new state for "from" value
+  const [bodyValue, setBodyValue] = useState('') // new state for "from" value
 
   useEffect(() => {
     const getData = async () => {
@@ -32,12 +33,24 @@ const AdminEmailModal = () => {
 
     getData()
     return () => {}
-  }, [])
+  }, [adminEmailUserID])
 
   const dispatch = useDispatch()
 
   const handleCloseModal = () => {
     dispatch(setShowEmailModal(false))
+  }
+
+  const handleSendEmail = () => {
+    console.log('sending email...')
+    console.log(bodyValue)
+
+    const data = {
+      from: fromEmail,
+      to: toValue,
+      text: bodyValue,
+    }
+    dispatch(sendEmail(data))
   }
 
   console.log(user)
@@ -46,6 +59,7 @@ const AdminEmailModal = () => {
       <div className="admin-email-modal">
         <div className="admin-email-header">
           <h1>send email</h1>
+          <i className="fa-regular fa-paper-plane send-icon"></i>
         </div>
         <div className="admin-email-body">
           <div className="admin-email-formm-group">
@@ -70,14 +84,17 @@ const AdminEmailModal = () => {
           </div>
           <div className="admin-email-formm-group">
             <textarea
+              onChange={(e) => setBodyValue(e.target.value)}
               name=""
               id=""
-              className="admin-email-input admin-email-body "
+              className="admin-email-input admin-email-text "
               placeholder="email body"
             ></textarea>
           </div>
           <div className="admin-email-btn-wrap">
-            <button className="admin-email-btn">send</button>
+            <button onClick={handleSendEmail} className="admin-email-btn">
+              send
+            </button>
             <button onClick={handleCloseModal} className="admin-email-btn">
               cancel
             </button>

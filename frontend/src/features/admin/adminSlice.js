@@ -91,6 +91,16 @@ export const getUserForEmailAdmin = createAsyncThunk(
     }
   }
 )
+export const sendEmail = createAsyncThunk('admin/send/email', async (data, thunkAPI) => {
+
+  try {
+    const token = thunkAPI.getState().auth.user.token
+    return await adminService.sendEmail(token, data)
+  } catch (error) {
+    console.log(error)
+    return thunkAPI.rejectWithValue(extractErrorMessage(error))
+  }
+})
 
 export const adminSlice = createSlice({
   name: 'admin',

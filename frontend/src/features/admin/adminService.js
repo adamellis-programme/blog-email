@@ -3,6 +3,7 @@ import axios from 'axios'
 const API_URL_ADMIN = '/api/admin/users/'
 const API_URL_EMAILS = '/api/emails'
 const API_URL_USER_EMAIL = '/api/emails/user'
+const API_URL_USER_EMAIL_SEND = '/api/emails/user/send'
 
 const getAllUsersAdmin = async (token) => {
   const config = {
@@ -75,6 +76,19 @@ const getUserForEmailAdmin = async (token, data) => {
   // console.log(response)
   return response.data
 }
+const sendEmail = async (token, data) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  // console.log(data)
+
+  const response = await axios.post(API_URL_USER_EMAIL_SEND, data, config)
+  // console.log(response)
+  return response.data
+}
 
 const adminService = {
   getAllUsersAdmin,
@@ -84,6 +98,7 @@ const adminService = {
   // EMAILS
   getEmailListAdmin,
   getUserForEmailAdmin,
+  sendEmail,
 }
 
 export default adminService
