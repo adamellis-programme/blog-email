@@ -3,7 +3,7 @@ import MiddelCollumnAdvert from '../components/advert components/MiddelCollumnAd
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
-import { register } from '../features/auth/authSlice'
+import { register, sendWelcomeEmails } from '../features/auth/authSlice'
 import { formatedDOB, getDate } from '../utils'
 import { emailSignUp } from '../features/users/userSlice'
 function Register() {
@@ -50,13 +50,31 @@ function Register() {
     }))
 
     // if (['day', 'month', 'name'].includes(name)) {
-      // use  if (isNaN(parsedValue)) {}
+    // use  if (isNaN(parsedValue)) {}
     //   console.log('object')
     // }
   }
 
   const onSubmit = (e) => {
     e.preventDefault()
+
+    const welcomeData = {
+      email: 'ellisadam88@gmail.com',
+      username: 'John Doe',
+      invoiceNumber: 'INV-12345',
+      loginDetails: {
+        email: 'ellisadam88@gmail.com',
+        password: 'password123',
+      },
+      purchases: [
+        
+      ],
+    }
+
+    dispatch(sendWelcomeEmails(welcomeData))
+
+    console.log('creating new user .....')
+    return
 
     // if (password !== password2) {
     //   toast.error('passwords do not match')

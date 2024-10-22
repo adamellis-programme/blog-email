@@ -213,7 +213,38 @@ const sendEmail = asyncHandler(async (req, res) => {
   }
 })
 
-const sendWelcomeEmails = asyncHandler(async (req, res) => {})
+const sendWelcomeEmails = asyncHandler(async (req, res) => {
+  const { email, username, invoiceNumber, loginDetails } = req.body
+
+  try {
+    // Prepare the dynamic replacements for Handlebars templates
+    const replacements = {
+      username, // Replacing {{username}} in the template
+      login_email: loginDetails.email, // Replacing {{login_email}} in the template
+      temporary_password: loginDetails.password, // Replacing {{temporary_password}} in the template
+    }
+
+    // Load and compile each email template
+    const welcomeEmail = loadTemplate('welcome', replacements)
+    const invoiceEmail = loadTemplate('invoice', replacements)
+    const loginDetailsEmail = loadTemplate('loginDetails', replacements)
+
+    // Send welcome email
+    await sendEmailFunc(email, 'Welcome to Our Service', welcomeEmail)
+
+    // Send invoice email
+    await sendEmailFunc(email, 'Your Invoice', invoiceEmail)
+
+    // Send login details email
+    await sendEmailFunc(email, 'Your Login Details', loginDetailsEmail)
+
+    // Respond to the frontend with success
+    res.status(200).json({ message: 'Emails sent successfully!' })
+  } catch (error) {
+    console.error('Error sending emails:', error.message)
+    res.status(500).json({ message: 'Failed to send emails', error: error.message })
+  }
+})
 
 module.exports = {
   signUp,

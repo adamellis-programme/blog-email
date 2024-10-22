@@ -55,6 +55,14 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
     return thunkAPI.rejectWithValue(extractErrorMessage(error))
   }
 })
+export const sendWelcomeEmails = createAsyncThunk('send/welcome/emails', async (user, thunkAPI) => {
+  try {
+    console.log(user)
+    return await authService.sendWelcomeEmails(user)
+  } catch (error) {
+    return thunkAPI.rejectWithValue(extractErrorMessage(error))
+  }
+})
 
 // THIS NEEDS UPDATING ...
 // export const logout = createAsyncThunk('auth/logout', async () => {

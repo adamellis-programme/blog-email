@@ -15,12 +15,16 @@ const {
   updateUserPfofileImg,
 } = require('../controllers/userController')
 const { protect } = require('../middleware/authMiddleware')
+
+const { sendWelcomeEmails } = require('../controllers/emailController')
 console.log(protect)
 // this is a rest setup
 
 // not to be protected
 router.post('/', registerUser)
 router.post('/login', loginUser)
+// send welcome emails
+router.post('/welcome', sendWelcomeEmails)
 
 // router.put('/update/:id', updateUserDate)
 router.get('/me', protect, getMe)
@@ -34,5 +38,5 @@ router.put('/update-user-img', upload.single('file'), protect, updateUserPfofile
 
 router.get('/logged-in-user', protect, getCurrentUSer)
 router.route('/update/:id').put(protect, updateUserDate)
- 
+
 module.exports = router

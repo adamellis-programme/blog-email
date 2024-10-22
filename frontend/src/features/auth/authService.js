@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const API_URL = '/api/users'
+const WELCOME_URL = '/api/users/welcome'
 const API_URL_ADMIN = '/api/admin/create/'
 
 // THIS SENDS THE USER DATA TO THE BACKEND TO BE AUTHENTICATED AND PROCECCED
@@ -65,6 +66,17 @@ const login = async (userData) => {
 
   return response.data
 }
+const sendWelcomeEmails = async (userData) => {
+  console.log(userData)
+  const response = await axios.post(WELCOME_URL, userData)
+  console.log('RESPONSE DATA==>', response)
+
+  if (response.data) {
+    localStorage.setItem('user', JSON.stringify(response.data))
+  }
+
+  return response.data
+}
 const logout = () => localStorage.removeItem('user')
 
 // imoorted into slice
@@ -74,6 +86,8 @@ const authService = {
   login,
   // admin
   registerAsAdnin,
+  // send emails
+  sendWelcomeEmails,
 }
 
 export default authService
