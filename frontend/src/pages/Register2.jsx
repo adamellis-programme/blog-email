@@ -58,23 +58,40 @@ function Register() {
   const onSubmit = (e) => {
     e.preventDefault()
 
+    // place in a helper folder
     const welcomeData = {
       email: 'ellisadam88@gmail.com',
       username: 'John Doe',
-      invoiceNumber: 'INV-12345',
+      invoiceNumber: 'BLOGING-12345', // must be dynamic
       loginDetails: {
         email: 'ellisadam88@gmail.com',
         password: 'password123',
       },
       purchases: [
-        
+        {
+          id: crypto.randomUUID(),
+          product: '1 month subscription',
+          quantity: 1,
+          price: 100,
+          total: 100,
+        },
+        {
+          id: crypto.randomUUID(),
+          product: 'blog plus',
+          quantity: 1,
+          price: 300,
+          total: 300,
+        },
       ],
     }
 
     dispatch(sendWelcomeEmails(welcomeData))
 
     console.log('creating new user .....')
+
     return
+
+    console.log('ran 2')
 
     // if (password !== password2) {
     //   toast.error('passwords do not match')

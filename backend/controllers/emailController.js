@@ -214,16 +214,28 @@ const sendEmail = asyncHandler(async (req, res) => {
 })
 
 const sendWelcomeEmails = asyncHandler(async (req, res) => {
-  const { email, username, invoiceNumber, loginDetails } = req.body
+  const { email, username, invoiceNumber, loginDetails, purchases } = req.body
+
+  console.log(loginDetails)
+  // return
+
+  // Calculate subtotal, tax, and total
+  const subtotal = purchases.reduce((sum, item) => sum + item.total, 0)
+  const tax = subtotal * 0.1 // Assuming 10% tax rate
+  const total = subtotal + tax
+
+  // Prepare the dynamic replacements for Handlebars templates
+  const replacements = {
+    username,
+    invoiceNumber,
+    purchases,
+    loginDetails,
+    subtotal: subtotal.toFixed(2), // Format to 2 decimal places
+    tax: tax.toFixed(2),
+    total: total.toFixed(2),
+  }
 
   try {
-    // Prepare the dynamic replacements for Handlebars templates
-    const replacements = {
-      username, // Replacing {{username}} in the template
-      login_email: loginDetails.email, // Replacing {{login_email}} in the template
-      temporary_password: loginDetails.password, // Replacing {{temporary_password}} in the template
-    }
-
     // Load and compile each email template
     const welcomeEmail = loadTemplate('welcome', replacements)
     const invoiceEmail = loadTemplate('invoice', replacements)
@@ -238,11 +250,10 @@ const sendWelcomeEmails = asyncHandler(async (req, res) => {
     // Send login details email
     await sendEmailFunc(email, 'Your Login Details', loginDetailsEmail)
 
-    // Respond to the frontend with success
     res.status(200).json({ message: 'Emails sent successfully!' })
   } catch (error) {
-    console.error('Error sending emails:', error.message)
-    res.status(500).json({ message: 'Failed to send emails', error: error.message })
+    console.error('Error sending emails:', error)
+    res.status(500).json({ message: 'Failed to send emails', error })
   }
 })
 
