@@ -108,6 +108,19 @@ function AdminDash() {
 
           <div className="admin-dash-item">
             <Link className="admin-link-btn" to="/email-page">
+              <div className="admin-link-box link-box-sent-emails ">
+                <p className="admin-link-p">
+                  sent emails
+                  <span className="admin-link-span">check</span>
+                </p>
+                <i class="email-icon fa-solid fa-envelope-open-text"></i>
+                {/* <i className="email-icon fa-solid fa-envelope"></i> */}
+              </div>
+            </Link>
+          </div>
+
+          <div className="admin-dash-item">
+            <Link className="admin-link-btn" to="/email-page">
               <div className="admin-link-box link-box-view-emails ">
                 <p className="admin-link-p">
                   email signups

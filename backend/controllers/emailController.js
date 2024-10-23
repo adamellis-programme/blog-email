@@ -297,6 +297,18 @@ const markEmailAsRead = asyncHandler(async (req, res) => {
   console.log(req.body)
   console.log(req.body.id)
   console.log(req.body.email)
+  console.time()
+  console.timeEnd()
+  console.group()
+  console.table([])
+  // 550 / 2 = (500 / 2 = 250 + 50 / 2 = 25)
+  // 500 / 2 + 50 / 2
+  // 250 / 2 = 500
+  // 50  / 2 = 25
+  // 25  * 2 = 50
+
+  // CSS Clamp () -> min / max ....
+
   return
 })
 

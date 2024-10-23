@@ -52,6 +52,7 @@ function Register() {
     // Ensure day and month only accept two digits max
     let parsedValue = value
 
+    // hanling slice before it gets to render -- can be done on server??...
     if (name === 'day' || name === 'month') {
       parsedValue = value.slice(0, 2) // Limit to two digits
       if (name === 'day' && Number(parsedValue) > 31) parsedValue = '31'
@@ -78,7 +79,7 @@ function Register() {
 
   const onSubmit = (e) => {
     e.preventDefault()
-
+    // make sure tier is selcted
     if (tier === '' || tier === 'choose') {
       setErrorMsg('You must select a tier.')
       setShowError(true)

@@ -2907,6 +2907,9 @@ select {
 .link-box-view-emails {
   background-color: #3b4f8c;
 }
+.link-box-sent-emails {
+  background-color: #3a3e4d;
+}
 .link-box-new-blog {
   background-color: #747f7f;
 }

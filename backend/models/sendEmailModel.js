@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 // object of fields
+// MAKE A RELATIONSHIP WITH USER AND POPULATE FIELDS
 const sendEmailSchema = mongoose.Schema(
   {
     to: {
