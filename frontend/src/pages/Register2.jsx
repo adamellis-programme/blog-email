@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import MiddelCollumnAdvert from '../components/advert components/MiddelCollumnAdvert'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -6,33 +6,32 @@ import { useSelector, useDispatch } from 'react-redux'
 import { register, sendWelcomeEmails } from '../features/auth/authSlice'
 import { formatedDOB, getDate } from '../utils'
 import { emailSignUp } from '../features/users/userSlice'
+
 function Register() {
   const eyeOff = 'fa-solid fa-eye'
   const eyeOn = 'fa-solid fa-eye-slash'
 
   const [passwordType1, setPasswordType1] = useState('password') // For password field 1
   const [passwordType2, setPasswordType2] = useState('password') // For password field 2
-
   const [passwordClass1, setPasswordClass1] = useState(eyeOff) // For password field 1 icon
   const [passwordClass2, setPasswordClass2] = useState(eyeOff) // For password field 2 icon
-
   const [showError, setShowError] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
-  // const [isSuccess, setIsSuccess] = useState(false)
+
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    password2: '',
+    name: 'adam',
+    email: 'ellisadam88@gmail.com',
+    password: '1',
+    password2: '1',
     dob: '',
     terms: false,
     emailList: false,
-
     day: '',
     month: '',
     year: '',
+    tier: '',
   })
-  const { name, email, password, password2, day, year, month, terms, emailList } =
+  const { name, email, password, password2, day, year, month, terms, emailList, tier } =
     formData
 
   const navigate = useNavigate()
@@ -41,30 +40,62 @@ function Register() {
   const { user, isLoading, isSuccess, isError, message } = useSelector(
     (state) => state.auth
   )
-  // dd mm year
+
+  // Refs to handle focus
+  const monthInputRef = useRef(null)
+  const yearInputRef = useRef(null)
+
+  // Handling input change with auto-focus
   const onChange = (e) => {
     const { type, value, name, checked } = e.target
+
+    // Ensure day and month only accept two digits max
+    let parsedValue = value
+
+    if (name === 'day' || name === 'month') {
+      parsedValue = value.slice(0, 2) // Limit to two digits
+      if (name === 'day' && Number(parsedValue) > 31) parsedValue = '31'
+      if (name === 'month' && Number(parsedValue) > 12) parsedValue = '12'
+    }
+
+    // Ensure year only accepts four digits max
+    if (name === 'year') {
+      parsedValue = value.slice(0, 4)
+    }
+
+    // Focus logic
+    if (name === 'day' && value.length === 2) {
+      monthInputRef.current.focus() // Focus month input when day is complete
+    } else if (name === 'month' && value.length === 2) {
+      yearInputRef.current.focus() // Focus year input when month is complete
+    }
+
     setFormData((prevState) => ({
       ...prevState,
-      [name]: type === 'checkbox' ? checked : e.target.value,
+      [name]: type === 'checkbox' ? checked : parsedValue,
     }))
-
-    // if (['day', 'month', 'name'].includes(name)) {
-    // use  if (isNaN(parsedValue)) {}
-    //   console.log('object')
-    // }
   }
 
   const onSubmit = (e) => {
     e.preventDefault()
 
-    // place in a helper folder
+    if (tier === '' || tier === 'choose') {
+      setErrorMsg('You must select a tier.')
+      setShowError(true)
+      setTimeout(() => {
+        setShowError(false)
+        setErrorMsg('')
+      }, 2500)
+      return
+    }
+
     const welcomeData = {
       email: 'ellisadam88@gmail.com',
-      username: 'John Doe',
-      invoiceNumber: 'BLOGING-12345', // must be dynamic
+      username: 'Kendal Old',
+      tier,
+      invoiceNumber: `${crypto.randomUUID().slice(0, 7)}`,
       loginDetails: {
-        email: 'ellisadam88@gmail.com',
+        email: 'kendal.@gapseekers.com',
         password: 'password123',
       },
       purchases: [
@@ -85,17 +116,6 @@ function Register() {
       ],
     }
 
-    dispatch(sendWelcomeEmails(welcomeData))
-
-    console.log('creating new user .....')
-
-    return
-
-    console.log('ran 2')
-
-    // if (password !== password2) {
-    //   toast.error('passwords do not match')
-    // } else  {
     const userData = {
       name,
       email,
@@ -104,25 +124,22 @@ function Register() {
       dob: formatedDOB(day, month, year),
       terms,
       emailList,
-      // sent for error handeling
       day,
       month,
       year,
+      tier,
     }
-
-    console.log(userData)
 
     dispatch(register(userData))
       .unwrap()
       .then((user) => {
-        console.log(user)
         toast.success(`Registered new user: ${user.name}`)
+        dispatch(sendWelcomeEmails(welcomeData))
         navigate('/')
       })
       .catch((err) => {
         setShowError(true)
         setErrorMsg(err)
-
         setTimeout(() => {
           setShowError(false)
           setErrorMsg('')
@@ -139,17 +156,10 @@ function Register() {
       }
 
       dispatch(emailSignUp({ data: emailData, from: 'regPage' }))
-
-      console.log(emailData)
     }
-
-    // }
   }
 
   const handleShowPassword = (index) => {
-    // HAS to be seperate state for the two inputs
-    // Pass the field index (1 or 2)
-    // place the logic INSIDE the ()
     if (index === 1) {
       setPasswordType1(passwordType1 === 'password' ? 'text' : 'password')
       setPasswordClass1(passwordType1 === 'password' ? eyeOn : eyeOff)
@@ -157,6 +167,13 @@ function Register() {
       setPasswordType2(passwordType2 === 'password' ? 'text' : 'password')
       setPasswordClass2(passwordType2 === 'password' ? eyeOn : eyeOff)
     }
+  }
+
+  const handleSelectChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      tier: e.target.value,
+    }))
   }
 
   return (
@@ -175,7 +192,6 @@ function Register() {
         </section>
 
         <section className="register-form-section">
-          {/* <div className="holding-box"></div> */}
           <div className="holding-box register-form-holding-box">
             <form onSubmit={onSubmit} className="register-form">
               <div className="form-group">
@@ -188,7 +204,6 @@ function Register() {
                   className="form-input register-input"
                   name="name"
                   placeholder="Enter Name"
-                  // required
                 />
               </div>
               <div className="form-group">
@@ -200,7 +215,6 @@ function Register() {
                   className="form-input register-input"
                   name="email"
                   placeholder="Enter Email"
-                  // required
                 />
               </div>
               <div className="form-group register-password-wrap">
@@ -213,7 +227,6 @@ function Register() {
                   name="password"
                   placeholder="Enter Password"
                   autoComplete="on"
-                  // required
                 />
                 <i
                   onClick={() => handleShowPassword(1)}
@@ -230,13 +243,13 @@ function Register() {
                   name="password2"
                   placeholder="Confirm password"
                   autoComplete="on"
-                  // required
                 />
                 <i
                   onClick={() => handleShowPassword(2)}
                   className={`view-password ${passwordClass2}`}
                 ></i>
               </div>
+
               <div className="form-group register-dob-wrap">
                 <div className="register-dob-container">
                   <label className="dob-label" htmlFor="">
@@ -249,22 +262,27 @@ function Register() {
                     className="dob-input"
                     placeholder="dd"
                     value={day.slice(0, 2)}
+                    maxLength="2"
                   />
                   <input
+                    ref={monthInputRef} // Use ref to focus on month
                     onChange={onChange}
                     name="month"
                     type="text"
                     className="dob-input"
                     placeholder="mm"
                     value={month.slice(0, 2)}
+                    maxLength="2"
                   />
                   <input
+                    ref={yearInputRef} // Use ref to focus on year
                     onChange={onChange}
                     name="year"
                     type="text"
                     className="dob-input"
                     placeholder="yy yy"
                     value={year.slice(0, 4)}
+                    maxLength="4"
                   />
                 </div>
               </div>
@@ -294,6 +312,15 @@ function Register() {
                   />
                   <span className="reg-email-span">join our mailing list</span>
                 </label>
+              </div>
+
+              <div className="form-group tier-group">
+                <select onChange={handleSelectChange} className="register-tier-select">
+                  <option value="choose">choose subscription tier</option>
+                  <option value="free">free</option>
+                  <option value="prem">premium</option>
+                </select>
+                <i className="fa-solid fa-chevron-down tier-chev"></i>
               </div>
               <div className="form-group form-btn-container">
                 <button className="form-btn register-btn">register me</button>

@@ -1,4 +1,4 @@
-// helper function...
+// helper functions...
 const fs = require('fs')
 const handlebars = require('handlebars')
 const nodemailer = require('nodemailer')
@@ -35,4 +35,3 @@ const sendEmailFunc = async (to, subject, htmlContent) => {
 
 // Export the sendEmailFunc function
 module.exports = { loadTemplate, sendEmailFunc }
- 

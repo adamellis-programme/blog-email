@@ -110,7 +110,7 @@ function AdminDash() {
             <Link className="admin-link-btn" to="/email-page">
               <div className="admin-link-box link-box-view-emails ">
                 <p className="admin-link-p">
-                  emails
+                  email signups
                   <span className="admin-link-span">view</span>
                 </p>
                 <i className="email-icon fa-solid fa-envelope"></i>

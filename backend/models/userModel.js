@@ -20,6 +20,7 @@ const userSchema = mongoose.Schema(
       required: [true, 'Please Enter a password'],
     },
 
+    tier: String,
     avatar: String,
     avatarPublicId: String,
 

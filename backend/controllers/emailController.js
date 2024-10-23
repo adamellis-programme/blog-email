@@ -3,6 +3,7 @@ const nodemailer = require('nodemailer')
 const EmailModel = require('../models/emailModel')
 const UserModel = require('../models/userModel')
 const MsgModel = require('../models/msgModel')
+const SendEmailModel = require('../models/sendEmailModel')
 
 const { loadTemplate, sendEmailFunc } = require('../utils/emailSender')
 
@@ -46,6 +47,7 @@ const signUp = asyncHandler(async (req, res) => {
   res.status(201).json(newSignUp)
 })
 
+// WHY MSG AND NOT EMAIL....
 // from the message component
 // made for a generic one and checked in the service
 const msgSignUp = asyncHandler(async (req, res) => {
@@ -184,8 +186,12 @@ const getUserForEmailAdmin = asyncHandler(async (req, res) => {
 
 const sendEmail = asyncHandler(async (req, res) => {
   console.log(req.body)
-  const { from, to, text } = req.body
+  const { from, to, text, subject } = req.body
   console.log(from)
+  console.log(to)
+  console.log(text)
+
+  // return
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -194,17 +200,43 @@ const sendEmail = asyncHandler(async (req, res) => {
       pass: 'ugth avtg hdos aaqs', // See note below on using app-specific passwords
     },
   })
+  const formattedBody = text.replace(/\n/g, '<br>')
+  const replacements = {
+    username: to,
+    dashboardLink: 'https://example.com/dashboard',
+    senderName: from,
+    companyName: 'Travel Blogging site',
+    body: formattedBody, // Use the formatted body with <br> tags
+    subject,
+    year: new Date().getFullYear(),
+  }
+  const welcomeEmail = loadTemplate('genericEmail', replacements)
+
+  // return
+  // console.log(welcomeEmail)
 
   try {
     // Await the email sending
     const info = await transporter.sendMail({
-      from: `Adam <${from}>`,
-      to: 'ellisadam88@gmail.com',
-      subject: 'Hello ✔',
-      text: text,
-      html: `<h1> hello there </h1>`,
+      from,
+      to,
+      subject: `${subject} ✔`,
+      text: text, // text is a fallback
+      html: welcomeEmail,
     })
-    height:;
+
+    const emailData = {
+      to,
+      from,
+      subject,
+      body: formattedBody,
+      read: false,
+    }
+
+    // for upadte save() or findByIdAndUpdate()
+    const savedEmail = await SendEmailModel.create(emailData)
+    console.log(savedEmail)
+
     console.log('Message sent: %s', info.messageId)
     res.status(200).json({ message: 'Email sent successfully' })
   } catch (error) {
@@ -214,7 +246,11 @@ const sendEmail = asyncHandler(async (req, res) => {
 })
 
 const sendWelcomeEmails = asyncHandler(async (req, res) => {
-  const { email, username, invoiceNumber, loginDetails, purchases } = req.body
+  const { email, username, invoiceNumber, loginDetails, purchases, tier } = req.body
+
+  console.log(tier)
+
+  // return
 
   console.log(loginDetails)
   // return
@@ -245,7 +281,7 @@ const sendWelcomeEmails = asyncHandler(async (req, res) => {
     await sendEmailFunc(email, 'Welcome to Our Service', welcomeEmail)
 
     // Send invoice email
-    await sendEmailFunc(email, 'Your Invoice', invoiceEmail)
+    if (tier === 'prem') await sendEmailFunc(email, 'Your Invoice', invoiceEmail)
 
     // Send login details email
     await sendEmailFunc(email, 'Your Login Details', loginDetailsEmail)
@@ -257,6 +293,13 @@ const sendWelcomeEmails = asyncHandler(async (req, res) => {
   }
 })
 
+const markEmailAsRead = asyncHandler(async (req, res) => {
+  console.log(req.body)
+  console.log(req.body.id)
+  console.log(req.body.email)
+  return
+})
+
 module.exports = {
   signUp,
   getEmailsAdmin,
@@ -265,4 +308,5 @@ module.exports = {
   getUserForEmailAdmin,
   sendEmail,
   sendWelcomeEmails,
+  markEmailAsRead,
 }

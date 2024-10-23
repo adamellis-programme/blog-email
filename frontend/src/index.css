@@ -763,10 +763,31 @@ ul {
   /* border: 1px solid; */
   /* margin-top: 7rem; */
 }
+
+.register-tier-select {
+  width: 100%;
+  border: none;
+  font-size: 1.3rem;
+  padding: 0.4rem;
+  border-radius: 4px;
+  outline: none;
+  font-family: 'Red Hat Display', sans-serif;
+}
+.tier-group {
+  position: relative;
+  margin-top: 0.8rem;
+}
+.tier-chev {
+  position: absolute;
+  top: 54%;
+  transform: translateY(-50%);
+  right: 10px;
+  font-size: 1.2rem;
+}
 .register-form-section {
   display: grid;
   /* border: 1px solid; */
-  margin-top: 7rem;
+  /* margin-top: 7rem; */
   /* padding: 1rem; */
 }
 
@@ -786,7 +807,7 @@ ul {
 
 .register-form-holding-box {
   /* border: 1px solid red; */
-  /* margin-top: 7rem; */
+  margin-top: 4rem;
 }
 .holding-box {
   /* border: 1px solid; */

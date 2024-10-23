@@ -13,8 +13,22 @@ const cloudinary = require('cloudinary').v2
 // @route api/users
 // @ access public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, password2, dob, day, month, year, terms, emailList } =
-    req.body
+  const {
+    name,
+    email,
+    password,
+    password2,
+    dob,
+    day,
+    month,
+    year,
+    terms,
+    emailList,
+    tier,
+  } = req.body
+
+  console.log('year', year)
+  
   if (!terms) {
     res.status(400)
     throw new Error('Please accept the terms and conditions')
@@ -35,7 +49,7 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400)
     throw new Error('passwords must match ')
   }
-  // || !email.includes('@gmail')
+  // || !email.includes('@gmail') && includes('.')
   if (!email.includes('@')) {
     res.status(400)
     throw new Error('must be a proper email')
@@ -60,11 +74,10 @@ const registerUser = asyncHandler(async (req, res) => {
     dob,
     terms,
     emailList,
+    tier,
   })
 
-  // console.log('==> brand new registerd:', user)
-
-  // if a user has been created
+  // if a user has been created return this data to client
   if (user) {
     res.status(201).json({
       _id: user._id,

@@ -8,9 +8,10 @@ const AdminEmailModal = () => {
   const { adminEmailUserID } = useSelector((state) => state.admin)
   const [user, setUser] = useState(null)
   const [adminUser, setAdminUser] = useState(null)
-  const [fromEmail, setFromEmail] = useState('') // new state for "from" value
+  const [fromName, setFromName] = useState('') // new state for "from" value
   const [toValue, setToValue] = useState('') // new state for "from" value
   const [bodyValue, setBodyValue] = useState('') // new state for "from" value
+  const [subject, setSubject] = useState('') // new state for "from" value
 
   useEffect(() => {
     const getData = async () => {
@@ -18,14 +19,14 @@ const AdminEmailModal = () => {
         const emailData = await dispatch(
           getUserForEmailAdmin({ id: adminEmailUserID })
         ).unwrap()
-        setToValue(`TO: ${emailData?.email}` || '')
+        setToValue(`${emailData?.email}` || '')
 
         const adminUser = await dispatch(getCurrentUSer()).unwrap()
         console.log(adminUser)
         console.log(adminUser)
         setUser(emailData)
         setAdminUser(adminUser)
-        setFromEmail(`FROM: ${adminUser?.email || ''}`) // set the from field when data is loaded
+        setFromName(`${adminUser?.name || ''}`) // set the from field when data is loaded
       } catch (error) {
         console.log(error)
       }
@@ -43,12 +44,19 @@ const AdminEmailModal = () => {
 
   const handleSendEmail = () => {
     console.log('sending email...')
-    console.log(bodyValue)
+    console.log(JSON.stringify(bodyValue))
+
+    // Replace newlines with <br> for email formatting
+    const formattedBody = bodyValue.replace(/\n/g, '<br>')
+    console.log(JSON.stringify(formattedBody))
+
+    // return
 
     const data = {
-      from: fromEmail,
+      from: fromName,
       to: toValue,
       text: bodyValue,
+      subject,
     }
     dispatch(sendEmail(data))
   }
@@ -67,7 +75,7 @@ const AdminEmailModal = () => {
               type="text"
               className="admin-email-input admin-email-to"
               placeholder="to"
-              value={toValue}
+              value={`TO: ${toValue}`}
               onChange={(e) => setToValue(e.target.value)}
               disabled
             />
@@ -77,9 +85,18 @@ const AdminEmailModal = () => {
               type="text"
               className="admin-email-input admin-email-from"
               placeholder="from"
-              value={fromEmail} // use value instead of defaultValue
-              onChange={(e) => setFromEmail(e.target.value)} // control the input
+              value={`FROM: ${fromName}`} // use value instead of defaultValue
+              onChange={(e) => setFromName(e.target.value)} // control the input
               disabled
+            />
+          </div>
+          <div className="admin-email-formm-group">
+            <input
+              type="text"
+              className="admin-email-input admin-email-from"
+              placeholder="subject"
+              value={subject} // use value instead of defaultValue
+              onChange={(e) => setSubject(e.target.value)} // control the input
             />
           </div>
           <div className="admin-email-formm-group">
