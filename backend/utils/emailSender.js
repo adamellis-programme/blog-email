@@ -18,8 +18,8 @@ const sendEmailFunc = async (to, subject, htmlContent) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail', // Or another email provider
     auth: {
-      user: 'theblogsite101@gmail.com',
-      pass: 'ugth avtg hdos aaqs', // See note below on using app-specific passwords
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS, // See note below on using app-specific passwords
     },
   })
 

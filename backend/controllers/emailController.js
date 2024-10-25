@@ -198,8 +198,8 @@ const sendEmail = asyncHandler(async (req, res) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'theblogsite101@gmail.com',
-      pass: 'ugth avtg hdos aaqs', // See note below on using app-specific passwords
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS, // See note below on using app-specific passwords
     },
   })
 
@@ -348,7 +348,7 @@ const getSentEmails = asyncHandler(async (req, res) => {
 // CSS Clamp () -> min / max ....
 const trackEmail = asyncHandler(async (req, res) => {
   // Generate a unique tracking ID
-  console.log('hows it going man...', trackingId)
+  console.log('hows it going man...')
 })
 
 const getSingleEmail = asyncHandler(async (req, res) => {

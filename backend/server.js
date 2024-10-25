@@ -30,15 +30,11 @@ connectDB()
 //  initialises the app variable
 
 app.use(express.static(path.join(__dirname, '..', 'public', 'uploads')))
-console.log(path.join(__dirname, '..', 'public', 'uploads'))
+// console.log(path.join(__dirname, '..', 'public', 'uploads'))
+// console.log(path.join(__dirname, '..'))
 // middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-
-// // rest
-// app.get('/', (req, res) => {
-//   res.json({ msg: 'hello' })
-// })
 
 // connec address to that file    --    /api/users is the root api
 
@@ -56,5 +52,20 @@ app.use('/api/msg', require('./routes/msgRoutes'))
 // --> for blogs ONLY:->)
 
 app.use(errorHandler)
+
+if (process.env.NODE_ENV === 'production') {
+  // set static frontend folder
+  app.use(express.static(path.join(__dirname, '../frontend/build')))
+
+  // any route that is not an api will be re-directed to the index.html in the frontend folder we just made static
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, '../frontend', 'build', 'index.html'))
+  )
+} else {
+  // // rest
+  app.get('/', (req, res) => {
+    res.json({ msg: 'API IS RUNNING ...this is the dev server' })
+  })
+}
 
 app.listen(PORT, () => console.log('server started on port ', PORT))
