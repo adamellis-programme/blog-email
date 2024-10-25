@@ -347,8 +347,10 @@ const getSentEmails = asyncHandler(async (req, res) => {
 
 // CSS Clamp () -> min / max ....
 const trackEmail = asyncHandler(async (req, res) => {
-  // Generate a unique tracking ID
-  console.log('hows it going man...')
+  const { trackingId } = req.query
+  console.log('Tracking ID received:', trackingId)
+
+  res.status(200).send('Tracking pixel endpoint hit.')
 })
 
 const getSingleEmail = asyncHandler(async (req, res) => {
