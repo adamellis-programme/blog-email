@@ -204,7 +204,7 @@ const sendEmail = asyncHandler(async (req, res) => {
   })
 
   // Create the tracking pixel URL
-  const trackingPixelUrl = `localhost:6001/api/emails/track-email?trackingId=${trackingId}`
+  const trackingPixelUrl = `https://blog-site-jz0i.onrender.com/api/emails/track-email?trackingId=${trackingId}`
 
   const formattedBody = text.replace(/\n/g, '<br>')
   const replacements = {
