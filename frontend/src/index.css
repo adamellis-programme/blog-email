@@ -4031,11 +4031,10 @@ input[type='radio'] {
   nav {
     /* height: 60px; */
     box-shadow: 1px 2px rgba(0, 0, 0, 0.1);
-    padding: 1rem;
   }
 
   .nav-logo {
-    height: 80px;
+    height: 88px;
     margin-top: 10px;
   }
 
