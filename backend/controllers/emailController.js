@@ -4,7 +4,7 @@ const EmailModel = require('../models/emailModel')
 const UserModel = require('../models/userModel')
 const MsgModel = require('../models/msgModel')
 const SendEmailModel = require('../models/sendEmailModel')
-
+const { v4: uuidv4 } = require('uuid')
 const { loadTemplate, sendEmailFunc } = require('../utils/emailSender')
 
 // from the home page
@@ -185,6 +185,8 @@ const getUserForEmailAdmin = asyncHandler(async (req, res) => {
 })
 
 const sendEmail = asyncHandler(async (req, res) => {
+  // Generate a unique tracking ID
+  const trackingId = uuidv4()
   console.log(req.body)
   const { from, to, text, subject } = req.body
   console.log(from)
@@ -200,6 +202,10 @@ const sendEmail = asyncHandler(async (req, res) => {
       pass: 'ugth avtg hdos aaqs', // See note below on using app-specific passwords
     },
   })
+
+  // Create the tracking pixel URL
+  const trackingPixelUrl = `localhost:6001/api/emails/track-email?trackingId=${trackingId}`
+
   const formattedBody = text.replace(/\n/g, '<br>')
   const replacements = {
     username: to,
@@ -209,6 +215,7 @@ const sendEmail = asyncHandler(async (req, res) => {
     body: formattedBody, // Use the formatted body with <br> tags
     subject,
     year: new Date().getFullYear(),
+    trackingPixelUrl, // Include the tracking pixel URL
   }
   const welcomeEmail = loadTemplate('genericEmail', replacements)
 
@@ -231,6 +238,7 @@ const sendEmail = asyncHandler(async (req, res) => {
       subject,
       body: formattedBody,
       read: false,
+      trackingPixelUrl,
     }
 
     // for upadte save() or findByIdAndUpdate()
@@ -293,23 +301,108 @@ const sendWelcomeEmails = asyncHandler(async (req, res) => {
   }
 })
 
-const markEmailAsRead = asyncHandler(async (req, res) => {
-  console.log(req.body)
-  console.log(req.body.id)
-  console.log(req.body.email)
-  console.time()
-  console.timeEnd()
-  console.group()
-  console.table([])
-  // 550 / 2 = (500 / 2 = 250 + 50 / 2 = 25)
-  // 500 / 2 + 50 / 2
-  // 250 / 2 = 500
-  // 50  / 2 = 25
-  // 25  * 2 = 50
+// get all sent emails
+const getSentEmails = asyncHandler(async (req, res) => {
+  const userID = req.user._id
+  const loggedInAdmin = await UserModel.findById(userID)
 
-  // CSS Clamp () -> min / max ....
+  if (loggedInAdmin.isAdmin === false) {
+    res.status(401)
+    throw new Error('You must be an admin to access these emails')
+  }
+  if (loggedInAdmin.isSuspended === true) {
+    res.status(401)
+    throw new Error('You are suspended and cannot access this email area')
+  }
 
-  return
+  if (!loggedInAdmin) {
+    res.status(401)
+    throw new Error('User as admin not found')
+  }
+
+  // find all
+  const allEmails = await SendEmailModel.find()
+
+  if (!allEmails) {
+    throw new Error('somthing went wrong')
+  }
+
+  res.status(200).json(allEmails)
+
+  console.log('how it started...')
+})
+
+// console.log(req.body)
+// console.log(req.body.id)
+// console.log(req.body.email)
+// console.time()
+// console.timeEnd()
+// console.group()
+// console.table([])
+// 550 / 2 = (500 / 2 = 250 + 50 / 2 = 25)
+// 500 / 2 + 50 / 2
+// 250 / 2 = 500
+// 50  / 2 = 25
+// 25  * 2 = 50
+
+// CSS Clamp () -> min / max ....
+const trackEmail = asyncHandler(async (req, res) => {
+  // Generate a unique tracking ID
+  console.log('hows it going man...', trackingId)
+})
+
+const getSingleEmail = asyncHandler(async (req, res) => {
+  console.log(req.params.id)
+  const userID = req.user._id
+  const loggedInAdmin = await UserModel.findById(userID)
+
+  if (loggedInAdmin.isAdmin === false) {
+    res.status(401)
+    throw new Error('You must be an admin to access these emails')
+  }
+  if (loggedInAdmin.isSuspended === true) {
+    res.status(401)
+    throw new Error('You are suspended and cannot access this email area')
+  }
+
+  if (!loggedInAdmin) {
+    res.status(401)
+    throw new Error('User as admin not found')
+  }
+
+  // Find the email by ID
+  const email = await SendEmailModel.findById(req.params.id)
+
+  if (!email) {
+    throw new Error('Something went wrong')
+  }
+
+  // Sanitize the email body using escapeHtml
+  const escapeHtml = (unsafe) => {
+    return (
+      unsafe
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;')
+        // Convert back <br> and <p> tags from escaped form
+        .replace(/&lt;br&gt;/g, '<br>')
+        .replace(/&lt;p&gt;/g, '<p>')
+        .replace(/&lt;\/p&gt;/g, '</p>')
+    )
+  }
+
+  const sanitizedEmailBody = escapeHtml(email.body)
+
+  // Respond with sanitized email data
+  res.status(200).json({
+    ...email.toObject(), // Convert the Mongoose document to a plain object
+    body: sanitizedEmailBody, // Replace the original body with the sanitized one
+  })
+
+  console.log('how it started...')
+  console.log("how it's going")
 })
 
 module.exports = {
@@ -320,5 +413,7 @@ module.exports = {
   getUserForEmailAdmin,
   sendEmail,
   sendWelcomeEmails,
-  markEmailAsRead,
+  trackEmail,
+  getSentEmails,
+  getSingleEmail,
 }

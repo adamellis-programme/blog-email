@@ -26,6 +26,8 @@ import MessagesPage from './pages/MessagesPage'
 import MyAccount from './pages/MyAccount'
 import Terms from './pages/Terms'
 import ManageImages from './pages/ManageImages'
+import ViewSentEmailsPage from './pages/ViewSentEmailsPage'
+import ViewSentEmailDataPage from './pages/ViewSentEmailDataPage'
 
 function App() {
   return (
@@ -94,6 +96,12 @@ function App() {
             <Route path="/admin-blogs" element={<Admin />} />
             <Route path="/admin-users" element={<AdminUsers />} />
             <Route path="/email-page" element={<ViewEmails />} />
+            {/* PROTECT MORE ROUTES  AND CHECK IF ADMIN IS TRUE  */}
+            <Route path="/view-sent-emails" element={<ViewSentEmailsPage />} />
+            <Route
+              path="/view-sent-email-data-page/:id"
+              element={<ViewSentEmailDataPage />}
+            />
             <Route path="/admin-new-blog" element={<CreateBlogAdmin />} />
             <Route path="/faqs" element={<FAQS />} />
             <Route path="/ask" element={<Ask />} />

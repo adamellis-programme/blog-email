@@ -119,6 +119,7 @@
           {{!-- <h2>Hello {{username}},</h2> --}}
 
           <p>{{{body}}}</p>
+          <p>{{trackingPixelUrl}}</p>
 
           <!-- Call-to-Action Button -->
           {{!-- <a href='{{dashboardLink}}' class='cta-button'>Access Dashboard</a> --}}
@@ -143,5 +144,7 @@
         </td>
       </tr>
     </table>
+
+    <img src='{{trackingPixelUrl}}' alt='' width='1' height='1' style='display: none;' />
   </body>
 </html>

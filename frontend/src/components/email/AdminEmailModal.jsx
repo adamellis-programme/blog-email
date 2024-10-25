@@ -9,9 +9,9 @@ const AdminEmailModal = () => {
   const [user, setUser] = useState(null)
   const [adminUser, setAdminUser] = useState(null)
   const [fromName, setFromName] = useState('') // new state for "from" value
-  const [toValue, setToValue] = useState('') // new state for "from" value
-  const [bodyValue, setBodyValue] = useState('') // new state for "from" value
-  const [subject, setSubject] = useState('') // new state for "from" value
+  const [toValue, setToValue] = useState('') // new state for "to" value
+  const [bodyValue, setBodyValue] = useState('') // new state for "body" value
+  const [subject, setSubject] = useState('') // new state for "subject" value
 
   useEffect(() => {
     const getData = async () => {
@@ -22,8 +22,6 @@ const AdminEmailModal = () => {
         setToValue(`${emailData?.email}` || '')
 
         const adminUser = await dispatch(getCurrentUSer()).unwrap()
-        console.log(adminUser)
-        console.log(adminUser)
         setUser(emailData)
         setAdminUser(adminUser)
         setFromName(`${adminUser?.name || ''}`) // set the from field when data is loaded
@@ -42,26 +40,55 @@ const AdminEmailModal = () => {
     dispatch(setShowEmailModal(false))
   }
 
+  // Helper function to format the email body
+  // const formatEmailBody = (body) => {
+  //   // Replace all line breaks (\n) with <br> tags
+  //   let formattedBody = body.replace(/\n/g, '<br>')
+  //   // Wrap the entire text in a single <p> tag
+  //   return `<p>${formattedBody}</p>`
+  // }
+
+  const formatEmailBody = (body) => {
+    console.log('BODY: ', body)
+
+    // Step 1: Replace all line breaks (\n) with <br> tags
+    let formattedBody = body.replace(/\n/g, '<br>')
+
+    // Step 2: Wrap text between <br> tags in <p> tags
+    // Split the body by <br> tags, wrap the non-empty segments in <p> tags, and then join them back
+    formattedBody = formattedBody
+      .split(/<br>/) // Split by <br> tag
+      .map((textSegment) => textSegment.trim()) // Trim any leading/trailing spaces
+      // map text seg
+      .map((textSegment) => (textSegment ? `<p>${textSegment}</p>` : '<br>')) // Wrap non-empty text in <p>, keep <br>
+      .join('') // Join everything back together without extra separators
+
+    console.log('FORMATTED BODY: ', formattedBody)
+
+    return formattedBody
+  }
+
   const handleSendEmail = () => {
     console.log('sending email...')
-    console.log(JSON.stringify(bodyValue))
 
-    // Replace newlines with <br> for email formatting
-    const formattedBody = bodyValue.replace(/\n/g, '<br>')
-    console.log(JSON.stringify(formattedBody))
+    // Format the body value for email
+    const formattedBody = formatEmailBody(bodyValue)
+
+    console.log(formattedBody)
 
     // return
+    console.log(JSON.stringify(formattedBody))
 
     const data = {
       from: fromName,
       to: toValue,
-      text: bodyValue,
+      text: formattedBody,
       subject,
     }
+
     dispatch(sendEmail(data))
   }
 
-  console.log(user)
   return (
     <div className="admin-email-modal-wrap">
       <div className="admin-email-modal">
@@ -102,9 +129,8 @@ const AdminEmailModal = () => {
           <div className="admin-email-formm-group">
             <textarea
               onChange={(e) => setBodyValue(e.target.value)}
-              name=""
-              id=""
-              className="admin-email-input admin-email-text "
+              value={bodyValue}
+              className="admin-email-input admin-email-text"
               placeholder="email body"
             ></textarea>
           </div>

@@ -1197,6 +1197,8 @@ ul {
 }
 
 /* move tasks to tasks */
+.email-page-container,
+.sent-emails-container,
 .terms-container,
 .my-account-container,
 .msg-container,
@@ -3165,6 +3167,53 @@ select {
   margin-bottom: 1rem;
 }
 /* ===============  CUSTOM ALERT   ================= */
+/* ===============  VIEW EMAIL PAGE ================= */
+.email-data-section {
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+  padding: 1rem;
+}
+
+.email-data-section p {
+  text-align: justify;
+}
+
+.email-page-info-section {
+  max-width: 600px;
+  margin: 1rem auto;
+}
+.email-page-info-div {
+  /* border: 1px solid; */
+  margin-top: 0.4rem;
+}
+.email-info-top-div {
+  /* border: 1px solid; */
+  /* margin-bottom: 0.3rem; */
+  /* display: flex; */
+}
+.email-info-second-span,
+.email-info-first-span {
+  font-size: 1.2rem;
+  margin-right: 0.4rem;
+  padding: 0.4rem;
+  display: inline-block;
+  /* min-width: 80px; */
+  border-radius: 10px;
+}
+
+.email-info-first-span {
+  background-color: rgb(25, 91, 131);
+  color: #fff;
+}
+
+.email-info-second-span {
+  background-color: rgb(70, 89, 101);
+  color: #fff;
+}
+.email-item-link {
+  color: black;
+}
+/* ===============  VIEW EMAIL PAGE ================= */
 /* ===============  EMAIL-LIST   ================= */
 
 .admin-email-modal-wrap {

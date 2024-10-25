@@ -25,6 +25,10 @@ const emailsSchema = mongoose.Schema({
     type: String,
     default: '--:--',
   },
+  trackingPixelUrl: {
+    type: String,
+    default: '--:--',
+  },
 })
 
 module.exports = mongoose.model('Emails', emailsSchema)

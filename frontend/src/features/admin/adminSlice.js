@@ -12,6 +12,8 @@ const initialState = {
   isRejected: false,
   errMSG: null,
   emailData: null,
+
+  sentEmailData: null,
   deleteUserInfo: {},
   showDeleteUserModal: false,
   showEmailModal: false,
@@ -77,6 +79,31 @@ export const getEmailListAdmin = createAsyncThunk(
     }
   }
 )
+// get sent email data
+export const getEmailsSentAdmin = createAsyncThunk(
+  'admin/get/all/sent',
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await adminService.getEmailsSentAdmin(token)
+    } catch (error) {
+      console.log(error)
+      return thunkAPI.rejectWithValue(extractErrorMessage(error))
+    }
+  }
+)
+export const getSingleEmail = createAsyncThunk(
+  'admin/get/all/sent/one',
+  async (id, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await adminService.getSingleEmail(token, id)
+    } catch (error) {
+      console.log(error)
+      return thunkAPI.rejectWithValue(extractErrorMessage(error))
+    }
+  }
+)
 export const getUserForEmailAdmin = createAsyncThunk(
   'admin/get/user/email',
   async (data, thunkAPI) => {
@@ -92,7 +119,6 @@ export const getUserForEmailAdmin = createAsyncThunk(
   }
 )
 export const sendEmail = createAsyncThunk('admin/send/email', async (data, thunkAPI) => {
-
   try {
     const token = thunkAPI.getState().auth.user.token
     return await adminService.sendEmail(token, data)
@@ -119,6 +145,9 @@ export const adminSlice = createSlice({
     // sperad out to create a copy as object freeze so hade to work with a copy
     setEmailData: (state, action) => {
       state.emailData = [...action.payload]
+    },
+    setEmailSentlData: (state, action) => {
+      state.sentEmailData = [...action.payload]
     },
     setUserData: (state, action) => {
       state.users = [...action.payload]
@@ -169,5 +198,6 @@ export const {
   setUserToDelete,
   setToggleDeleteUserModal,
   setShowEmailModal,
+  setEmailSentlData,
 } = adminSlice.actions
 export default adminSlice.reducer

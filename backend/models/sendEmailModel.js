@@ -28,6 +28,10 @@ const sendEmailSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    openedAt: {
+      type: String,
+      default: '-- / -- / --',
+    },
   },
   {
     timestamps: true,
