@@ -29,7 +29,7 @@ function BlogItem({ blog }) {
 
         <div className="blog-item-info-container">
           <div className="blog-item-sub-header">country</div>
-          <div>{blog.category}</div>
+          <div>{blog.country}</div>
         </div>
 
         <div className="blog-item-info-container">

@@ -346,6 +346,26 @@ const getSentEmails = asyncHandler(async (req, res) => {
 // 25  * 2 = 50
 
 // CSS Clamp () -> min / max ....
+
+/**
+ * 
+ * -- Using $set to Replace the Entire Nested Object
+ * Effect:
+    Replaces the entire address object with the new object provided.
+    Any existing fields in address that are not included in the new object will be removed.
+    Use Case:
+    When you intend to completely replace the address object and don't need any of the existing fields.
+
+--  Using Dot Notation to Update Specific Fields
+
+    Updates only the specified fields within the address object.
+    Other fields within address remain unchanged.
+    Use Case:
+    When you want to update specific fields without affecting the rest of the nested object.
+
+
+
+ */
 const trackEmail = asyncHandler(async (req, res) => {
   const { trackingId } = req.query
 
@@ -353,10 +373,29 @@ const trackEmail = asyncHandler(async (req, res) => {
     console.log('Tracking pixel endpoint hit.')
     console.log('Tracking ID received:', trackingId)
 
+    // example with dot notation
+    // await SendEmailModel.updateOne(
+    //   { trackingId },
+    //   {
+    //     $set: {
+    //       'address.number': 3,
+    //       'address.street': 'easy street',
+    //       read: true,
+    //       openedAt: new Date(),
+    //     },
+    //   }
+    // )
+
     // Update your database to mark the email as opened
     await SendEmailModel.updateOne(
       { trackingId },
-      { $set: { read: true, openedAt: new Date() } }
+      {
+        $set: {
+          read: true,
+          openedAt: new Date(),
+        },
+      }
+      // { upsert: true }
     )
   } else {
     console.error('No tracking ID provided')

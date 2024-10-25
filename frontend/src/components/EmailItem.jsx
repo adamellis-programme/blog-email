@@ -64,10 +64,10 @@ function EmailItem({ data: { _id, name, email, date, time }, index }) {
         <p>{time}</p>
       </div>
       <div className="email-item-inner-div">
-        <span className="email-item-label">time</span>
+        <span className="email-item-label">email</span>
         <p>
           <button onClick={() => handleToggle(_id)} className="admin-send-email-btn">
-            <i className="fa-solid fa-envelope emial-icon"></i>
+            <i className="fa-solid fa-paper-plane send-email-icon"></i>
           </button>
         </p>
       </div>

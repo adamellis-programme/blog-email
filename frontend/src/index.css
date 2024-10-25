@@ -3216,6 +3216,41 @@ select {
 /* ===============  VIEW EMAIL PAGE ================= */
 /* ===============  EMAIL-LIST   ================= */
 
+.admin-email-btn {
+  /* Existing styles */
+  background-color: #007bff; /* Original blue color */
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Hover effect for active button */
+/* .admin-email-btn:hover {
+  background-color: #0056b3;
+} */
+
+.admin-email-form-group {
+  margin-bottom: 5px;
+}
+
+/* Styles when the button is disabled */
+.admin-email-btn.disabled,
+/* Targets elements with the class admin-email-btn that are also disabled via the HTML disabled attribute. */
+.admin-email-btn:disabled {
+  background-color: #cccccc; /* Gray background */
+  color: #666666; /* Gray text */
+  cursor: not-allowed; /* Disabled cursor */
+}
+
+/* Optional: Prevent hover effect when disabled */
+.admin-email-btn.disabled:hover {
+  background-color: #cccccc;
+}
+
 .admin-email-modal-wrap {
   width: 100%;
   height: 100vh;
@@ -3314,9 +3349,8 @@ select {
 .admin-send-email-btn {
   all: unset;
 }
-.emial-icon {
-  font-size: 1.6rem;
-  color: #347ec0;
+.send-email-icon {
+  color: #3d566b;
   cursor: pointer;
 }
 
@@ -3426,9 +3460,15 @@ select {
     align-items: start;
   }
   .email-item-label {
-    display: block;
+    display: none;
     text-decoration: underline;
   }
+
+  .send-email-icon {
+    font-size: 3rem;
+    padding: 1rem;
+  }
+
   .email-item-inner-div p {
     font-size: 1.4rem;
   }
@@ -3989,8 +4029,14 @@ input[type='radio'] {
     padding: 5px;
   }
   nav {
-    height: 60px;
+    /* height: 60px; */
     box-shadow: 1px 2px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+  }
+
+  .nav-logo {
+    height: 80px;
+    margin-top: 10px;
   }
 
   .toggle-nav {

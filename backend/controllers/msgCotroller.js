@@ -8,7 +8,7 @@ const newMsg = asyncHandler(async (req, res) => {
   const {
     about,
     contactEmail,
-    contactPhone,
+    contactPhone, 
     date,
     email,
     firstName,
