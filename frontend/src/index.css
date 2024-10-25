@@ -1791,16 +1791,8 @@ ul {
 }
 @media screen and (max-width: 800px) {
   .modal {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     padding: 2rem 1rem;
     padding-top: 2.7rem;
-    margin: 0;
-    /* height: 100vh; */
-    background-color: #ffffff;
   }
   .close-modal-btn {
     top: 11px;
