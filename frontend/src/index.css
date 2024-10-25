@@ -1793,6 +1793,8 @@ ul {
   .modal {
     padding: 2rem 1rem;
     padding-top: 2.7rem;
+    margin: 0;
+    height: 100vh;
   }
   .close-modal-btn {
     top: 11px;

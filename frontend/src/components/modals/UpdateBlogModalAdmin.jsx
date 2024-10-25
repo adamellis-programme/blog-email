@@ -100,6 +100,8 @@ function UpdateBlogModalAdmin() {
   }
 
   return (
+    //  change classes for mobile site change to
+    //  100vh on mobile screens
     <div className="modal-container">
       <div className="modal">
         <h3 className="admin-h3">
