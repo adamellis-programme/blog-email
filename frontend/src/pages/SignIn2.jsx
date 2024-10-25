@@ -1,15 +1,20 @@
 import MiddelCollumnAdvert from '../components/advert components/MiddelCollumnAdvert'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { login } from '../features/auth/authSlice'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
-import { getDate } from '../utils'
+import { getDate, scrollTop } from '../utils'
 import { updateUserDate } from '../features/users/userSlice'
 import { updateUSerState } from '../features/auth/authSlice'
 import bg from '../img/bg.jpg'
 import NotAuthorized from '../components/NotAuthorized'
 function SignIn() {
+  useEffect(() => {
+    scrollTop()
+
+    return () => {}
+  }, [])
   const eyeOff = 'fa-solid fa-eye'
   const eyeOn = 'fa-solid fa-eye-slash'
   const [showError, setShowError] = useState(false)

@@ -15,6 +15,7 @@ import BackButton from '../components/BackButton'
 import MobileBackBTN from '../components/MobileBackBTN'
 import AdminBlogsSearchBar from '../components/search components/AdminBlogsSearchBar'
 import GlobalPageLoader from '../components/loaders/GlobalPageLoader'
+import { scrollTop } from '../utils'
 
 // this page has to be a proteced route
 // to do: Rename to AdminBlogs
@@ -33,6 +34,7 @@ function Admin() {
 
   useEffect(() => {
     dispatch(getAdminBlogs())
+    scrollTop()
   }, [])
 
   useEffect(() => {
@@ -46,7 +48,7 @@ function Admin() {
   // useEffect(() => {
   //   console.log('LOADING------>',loading)
   //   return () => {
-      
+
   //   };
   // }, [loading]);
 

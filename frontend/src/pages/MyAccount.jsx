@@ -9,7 +9,7 @@ import {
   setLoggedInUser,
 } from '../features/users/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { getDate } from '../utils'
+import { getDate, scrollTop } from '../utils'
 import GlobalPageLoader from '../components/loaders/GlobalPageLoader'
 import AccountAlert from '../components/AccountAlert'
 import DeleteUserAlert from '../components/DeleteAccountAlert'
@@ -40,10 +40,7 @@ function MyAccount() {
   // console.log(new Date(userData && userData.createdAt))
   const dispatch = useDispatch()
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-    })
+    scrollTop()
     return () => {}
   }, [])
 

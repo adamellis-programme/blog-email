@@ -1,13 +1,18 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import MiddelCollumnAdvert from '../components/advert components/MiddelCollumnAdvert'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import { register, sendWelcomeEmails } from '../features/auth/authSlice'
-import { formatedDOB, getDate } from '../utils'
+import { formatedDOB, getDate, scrollTop } from '../utils'
 import { emailSignUp } from '../features/users/userSlice'
 
 function Register() {
+  useEffect(() => {
+    scrollTop()
+
+    return () => {}
+  }, [])
   const eyeOff = 'fa-solid fa-eye'
   const eyeOn = 'fa-solid fa-eye-slash'
 

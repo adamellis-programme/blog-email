@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getSingleEmail } from '../features/admin/adminSlice'
 import { useDispatch } from 'react-redux'
+import { scrollTop } from '../utils'
 
 const ViewSentEmailDataPage = () => {
   const [emailData, setEmailData] = useState(null)
@@ -9,6 +10,7 @@ const ViewSentEmailDataPage = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    scrollTop()
     const getData = async () => {
       const data = await dispatch(getSingleEmail(id)).unwrap()
       setEmailData(data)

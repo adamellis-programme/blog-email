@@ -8,6 +8,7 @@ import BackButton from '../components/BackButton'
 import MobileBackBTN from '../components/MobileBackBTN'
 import NoDataPlaceHolder from '../components/place holder components/NoDataPlaceHolder'
 import GlobalPageLoader from '../components/loaders/GlobalPageLoader'
+import { scrollTop } from '../utils'
 
 function UserBlogs() {
   const { blogs } = useSelector((state) => state.blogs)
@@ -18,6 +19,7 @@ function UserBlogs() {
   const { name } = user
   // console.log(user)
   useEffect(() => {
+    scrollTop()
     dispatch(getUserBlogs())
     setisLoading(false)
   }, [dispatch])

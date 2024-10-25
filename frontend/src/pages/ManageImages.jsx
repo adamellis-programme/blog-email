@@ -15,6 +15,7 @@ import hero from '../img/temp-imgs/hero.jpg'
 import MsgHeroItem from '../components/MsgHeroItem'
 import PageLoader from '../components/loaders/Loading'
 import GlobalPageLoader from '../components/loaders/GlobalPageLoader'
+import { scrollTop } from '../utils'
 const ManageImages = () => {
   const [showModal, setShowModal] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -29,6 +30,7 @@ const ManageImages = () => {
   const fileInputRef = useRef(null) // Create a ref for the file input
 
   useEffect(() => {
+    scrollTop()
     dispatch(getUserBlog(blogID)).then((data) => {
       setLoading(false)
     })

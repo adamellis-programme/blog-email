@@ -10,7 +10,7 @@ import {
   setTasks,
   setFilter,
 } from '../features/tasks/taskSlice'
-import { getDate, clearUpdateVisual } from '../utils'
+import { getDate, clearUpdateVisual, scrollTop } from '../utils'
 import { toast } from 'react-toastify'
 import DeleteTaskModal from '../components/modals/DeleteTaskModal'
 import BackButton from '../components/BackButton'
@@ -27,6 +27,7 @@ function Tasks() {
 
   // prettier-ignore
   useEffect(() => {
+    scrollTop()
     // ****************  DELETE THIS CODE ************************* //
     if (taskFocus) {
       const focusListItem = async () => {

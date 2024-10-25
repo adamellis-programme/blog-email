@@ -19,14 +19,13 @@ import UpdateBlogModal from '../components/modals/UpdateBlogModal'
 import DeleteBlogModal from '../components/modals/DeleteBlogModal'
 import NotAuthorized from '../components/NotAuthorized'
 import GlobalPageLoader from '../components/loaders/GlobalPageLoader'
+import { scrollTop } from '../utils'
 function PublicBlogPage() {
   const [showSuccessMSG, setshowSuccessMSG] = useState(false)
   const [copyMSG, setCopyMSG] = useState('')
   useEffect(() => {
-    window.scrollTo({
-      left: 0,
-      top: 0,
-    })
+    scrollTop()
+
     return () => {
       dispatch(resetErr())
       dispatch(resetBlog())

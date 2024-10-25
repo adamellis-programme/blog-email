@@ -8,6 +8,7 @@ import Loading from '../components/loaders/Loading'
 import NotAuthorized from '../components/NotAuthorized'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import { scrollTop } from '../utils'
 
 function CreateBlogAdmin() {
   const navigate = useNavigate()
@@ -54,6 +55,8 @@ function CreateBlogAdmin() {
   const { users } = useSelector((state) => state.admin)
   // console.log(users)
   useEffect(() => {
+    scrollTop()
+
     dispatch(getAllUsersAdmin())
     return () => {}
   }, [])

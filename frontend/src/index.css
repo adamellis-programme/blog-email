@@ -1484,6 +1484,7 @@ ul {
   transition: transform 200ms ease-out;
   display: grid;
   place-items: center;
+  z-index: 100;
 }
 .scroll-up-btn:active {
   transform: scale(90%);

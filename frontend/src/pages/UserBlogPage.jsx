@@ -19,6 +19,7 @@ import NotAuthorized from '../components/NotAuthorized'
 import BackButton from '../components/BackButton'
 import GlobalPageLoader from '../components/loaders/GlobalPageLoader'
 import { Link } from 'react-router-dom'
+import { scrollTop } from '../utils'
 function UserBlogPage() {
   const [showSuccessMSG, setshowSuccessMSG] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -46,11 +47,7 @@ function UserBlogPage() {
   const [wordCount, setWordCount] = useState(100)
 
   useEffect(() => {
-    window.scrollTo({
-      left: 0,
-      top: 0,
-    })
-
+    scrollTop() // custom function
     return () => {
       dispatch(resetErr())
       // do not show flashed stale data

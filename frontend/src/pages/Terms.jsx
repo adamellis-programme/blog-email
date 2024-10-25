@@ -1,12 +1,11 @@
 import React from 'react'
 import { useEffect } from 'react'
+import { scrollTop } from '../utils'
 
 function Terms() {
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-    })
+    scrollTop()
+
     return () => {}
   }, [])
   return (

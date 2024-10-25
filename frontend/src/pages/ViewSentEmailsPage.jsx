@@ -15,6 +15,7 @@ import GlobalPageLoader from '../components/loaders/GlobalPageLoader'
 import AdminEmailModal from '../components/email/AdminEmailModal'
 import { setShowEmailModal } from '../features/admin/adminSlice'
 import EmailSentItem from '../components/EmailSentItem'
+import { scrollTop } from '../utils'
 
 const ViewSentEmailsPage = () => {
   const { errMSG, isRejected, emailData, showEmailModal, sentEmailData } = useSelector(
@@ -25,10 +26,8 @@ const ViewSentEmailsPage = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    window.scrollTo({
-      left: 0,
-      top: 0,
-    })
+    scrollTop()
+
     return () => {}
   }, [])
 

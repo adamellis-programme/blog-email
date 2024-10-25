@@ -5,6 +5,7 @@ import MsgITem from '../components/MsgITem'
 import GlobalPageLoader from '../components/loaders/GlobalPageLoader'
 import { deleteMsgAdmin } from '../features/messages/msgSlice'
 import NoDataPlaceHolder from '../components/place holder components/NoDataPlaceHolder'
+import { scrollTop } from '../utils'
 // TRACK THE INDEX IN MESSAGES PAGE
 function MessagesPage() {
   const { messageID } = useSelector((state) => state.msg)
@@ -13,6 +14,7 @@ function MessagesPage() {
   const [messages, setMessages] = useState(null)
   const dispatch = useDispatch()
   useEffect(() => {
+    scrollTop()
     const getData = async () => {
       const data = await dispatch(getAllMsgsAdmin()).unwrap()
       setMessages(data)

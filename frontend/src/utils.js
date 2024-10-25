@@ -72,3 +72,10 @@ export function formatedDOB(date, month, year) {
   const birthYear = d.getFullYear()
   return `${birthDate} ${birthMonth} ${birthYear}`
 }
+
+export function scrollTop() {
+  window.scrollTo({
+    left: 0,
+    top: 0,
+  })
+}

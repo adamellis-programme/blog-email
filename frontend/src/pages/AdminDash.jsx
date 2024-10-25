@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setNewUserModal } from '../features/blog/blogSlice'
 import { getUserAdmin } from '../features/admin/adminSlice'
 import NotAuthorized from '../components/NotAuthorized'
+import { scrollTop } from '../utils'
 function AdminDash() {
   const dispatch = useDispatch()
   const [loggedInUser, setloggedInUser] = useState(null)
@@ -21,6 +22,7 @@ function AdminDash() {
   }
 
   useEffect(() => {
+    scrollTop()
     //  this state is handled in a different way
     //  with the try catch block
     // getUserAdmin is used from the admin slice direct

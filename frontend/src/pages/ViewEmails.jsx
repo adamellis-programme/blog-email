@@ -9,6 +9,7 @@ import SearchBar from '../components/search components/SearchBar'
 import GlobalPageLoader from '../components/loaders/GlobalPageLoader'
 import AdminEmailModal from '../components/email/AdminEmailModal'
 import { setShowEmailModal } from '../features/admin/adminSlice'
+import { scrollTop } from '../utils'
 
 function EmailSignUpsPage() {
   const { errMSG, isRejected, emailData, showEmailModal } = useSelector(
@@ -19,10 +20,8 @@ function EmailSignUpsPage() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    window.scrollTo({
-      left: 0,
-      top: 0,
-    })
+    scrollTop()
+
     return () => {}
   }, [])
 

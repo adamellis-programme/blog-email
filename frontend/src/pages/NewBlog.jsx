@@ -12,6 +12,7 @@ import NotAuthorized from '../components/NotAuthorized'
 import PageLoader from '../components/loaders/PageLoader'
 import MobileBackBTN from '../components/MobileBackBTN'
 import { Link } from 'react-router-dom'
+import { scrollTop } from '../utils'
 
 function NewBlog() {
   const imagesInputRef = useRef(null)
@@ -39,10 +40,8 @@ function NewBlog() {
   const { name } = user
 
   useEffect(() => {
-    window.scrollTo({
-      left: 0,
-      top: 0,
-    })
+    scrollTop()
+
     return () => {}
   }, [])
 

@@ -4,16 +4,15 @@ import MobileBackBTN from '../components/MobileBackBTN'
 import { useDispatch, useSelector } from 'react-redux'
 import { setShowMsgAlert, setMsgAlertlMSG } from '../features/messages/msgSlice'
 import arrow from '../img/arrow-2.png'
+import { scrollTop } from '../utils'
 function Ask() {
   const msgAlertDiv = useRef(null)
   const dispatch = useDispatch()
   const { showMsgAlert, msgAlertlMSG } = useSelector((state) => state.msg)
 
   useEffect(() => {
-    window.scrollTo({
-      left: 0,
-      top: 0,
-    })
+    scrollTop()
+
     return () => {}
   }, [])
 

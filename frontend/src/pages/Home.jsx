@@ -9,17 +9,15 @@ import EmailSignUpForm from '../components/EmailSignUpForm'
 import FeaturedBlogItem from '../components/FeaturedBlogItem'
 import GlobalPageLoader from '../components/loaders/GlobalPageLoader'
 import HomeLoader from '../components/loaders/HomeLoader'
+
+import { scrollTop } from '../utils'
 function Home() {
   const dispatch = useDispatch()
   const { publicBlogs } = useSelector((state) => state.blogs)
   const { user } = useSelector((state) => state.auth)
 
   useEffect(() => {
-    window.scrollTo({
-      left: 0,
-      top: 0,
-    })
-
+    scrollTop()
     return () => {}
   }, [])
 
@@ -82,7 +80,11 @@ function Home() {
           <p>to inspire your next trip </p>
         </div>
         {!publicBlogs && <HomeLoader />}
-        {publicBlogs && publicBlogs.length < 1 && <div className='home-no-blogs-div' ><h3>no featured blogs yet!</h3></div>}
+        {publicBlogs && publicBlogs.length < 1 && (
+          <div className="home-no-blogs-div">
+            <h3>no featured blogs yet!</h3>
+          </div>
+        )}
         <section className="home-blog-posts">
           {/* loader */}
           {filtered &&

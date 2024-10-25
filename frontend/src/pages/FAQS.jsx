@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import FAQAccordion from '../components/FAQAccordion'
+import { scrollTop } from '../utils'
 
 const questions = [
   {
@@ -29,10 +30,8 @@ function FAQS() {
   const [selected, setSelected] = useState(null)
 
   useEffect(() => {
-    window.scrollTo({
-      left: 0,
-      top: 0,
-    })
+    scrollTop()
+
     return () => {}
   }, [])
 

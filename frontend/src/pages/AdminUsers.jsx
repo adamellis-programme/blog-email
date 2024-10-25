@@ -14,6 +14,7 @@ import DeleteUserModal from '../components/modals/DeleteUserModal'
 import { setNewUserModal } from '../features/blog/blogSlice'
 import NewUserModal from '../components/modals/NewUserModal'
 import NoDataPlaceHolder from '../components/place holder components/NoDataPlaceHolder'
+import { scrollTop } from '../utils'
 
 function AdminUsers() {
   const {
@@ -28,10 +29,7 @@ function AdminUsers() {
   const { user } = useSelector((state) => state.auth)
 
   useEffect(() => {
-    window.scrollTo({
-      left: 0,
-      top: 0,
-    })
+    scrollTop()
   }, [])
 
   useEffect(() => {
