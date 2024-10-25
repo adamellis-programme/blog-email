@@ -32,6 +32,10 @@ const sendEmailSchema = mongoose.Schema(
       type: String,
       default: '-- / -- / --',
     },
+    trackingId: {
+      type: String,
+      default: '',
+    },
   },
   {
     timestamps: true,

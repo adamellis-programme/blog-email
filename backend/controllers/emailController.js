@@ -238,7 +238,7 @@ const sendEmail = asyncHandler(async (req, res) => {
       subject,
       body: formattedBody,
       read: false,
-      trackingPixelUrl,
+      trackingId,
     }
 
     // for upadte save() or findByIdAndUpdate()
@@ -348,9 +348,27 @@ const getSentEmails = asyncHandler(async (req, res) => {
 // CSS Clamp () -> min / max ....
 const trackEmail = asyncHandler(async (req, res) => {
   const { trackingId } = req.query
-  console.log('Tracking ID received:', trackingId)
 
-  res.status(200).send('Tracking pixel endpoint hit.')
+  if (trackingId) {
+    console.log('Tracking pixel endpoint hit.')
+    console.log('Tracking ID received:', trackingId)
+
+    // Update your database to mark the email as opened
+    await SendEmailModel.updateOne(
+      { trackingId },
+      { $set: { read: true, openedAt: new Date() } }
+    )
+  } else {
+    console.error('No tracking ID provided')
+  }
+
+  // Return a 1x1 transparent pixel
+  const img = Buffer.from(
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgAAAAAgAB4iG8MwAAAABJRU5ErkJggg==',
+    'base64'
+  )
+  res.writeHead(200, { 'Content-Type': 'image/png' })
+  res.end(img, 'binary')
 })
 
 const getSingleEmail = asyncHandler(async (req, res) => {
