@@ -26,6 +26,7 @@ function Header() {
     navigate('/sign-in')
     const containerDIV = navLinksContainer.current
     containerDIV.style.height = 0
+    console.log('object')
   }
 
   // useEffect(() => {
@@ -74,6 +75,7 @@ function Header() {
   const handleCloseNav = () => {
     const containerDIV = navLinksContainer.current
     containerDIV.style.height = 0
+    console.log('object')
   }
 
   // console.log(user)
@@ -98,8 +100,9 @@ function Header() {
               <i className="fa-solid fa-bars"></i>
             </button>
             <div className="nav-logo-div">
-            <Link to="/">
-              <img src={logo} alt="" className="nav-logo" />
+
+            <Link onClick={handleCloseNav} to="/">
+              <img  src={logo} alt="" className="nav-logo" />
             </Link>
  
             </div>
