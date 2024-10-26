@@ -1742,8 +1742,8 @@ ul {
   border-radius: 4px;
   min-width: 100%;
   max-width: 100%;
-  /* min-height: 250px; */
-  /* max-height: 370px; */
+  min-height: 250px;
+  max-height: 370px;
   border: none;
   border: 0.1px solid;
   border-color: #19275c;
@@ -3990,7 +3990,6 @@ input[type='radio'] {
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 1rem;
     max-width: 1500px;
-    border: 1px solid;
   }
   .footer-emial-btn {
     width: 80px;
