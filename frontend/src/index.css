@@ -1695,6 +1695,20 @@ ul {
   box-shadow: 2px 5px 21px rgba(0, 0, 0, 0.3), -2px -5px 21px rgba(0, 0, 0, 0.3);
   padding-top: 2.5rem;
 }
+
+@media screen and (max-width: 600px) {
+  .modal-container {
+    position: fixed;
+  }
+  .modal {
+    margin-top: 0rem;
+    height: 100%;
+  }
+
+  .modal-text-area {
+    /* background-color: red; */
+  }
+}
 .update-label {
   /* border: 1px solid; */
   display: block;
@@ -1728,8 +1742,8 @@ ul {
   border-radius: 4px;
   min-width: 100%;
   max-width: 100%;
-  min-height: 250px;
-  max-height: 370px;
+  /* min-height: 250px; */
+  /* max-height: 370px; */
   border: none;
   border: 0.1px solid;
   border-color: #19275c;
