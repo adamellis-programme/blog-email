@@ -4056,8 +4056,7 @@ input[type='radio'] {
     font-size: 24px;
     height: 46px;
     width: 66px;
-
-    border-radius: 2px;
+    border-radius: .4rem;
   }
 
   .home-hero {
